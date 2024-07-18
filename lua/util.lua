@@ -27,4 +27,28 @@ function M.lua_ls_on_init(client)
     })
 end
 
+
+---Utility for keymap creation.
+---@param lhs string
+---@param rhs string|function
+---@param opts string|table
+---@param mode? string|string[]
+function M.keymap(lhs, rhs, opts, mode)
+    opts = type(opts) == 'string' and { desc = opts }
+        or vim.tbl_extend('error', opts --[[@as table]], { buffer = bufnr })
+    mode = mode or {'n','v'}
+    vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+---For replacing certain <C-x>... keymaps.
+---@param keys string
+function M.feedkeys(keys)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), 'n', true)
+end
+
+---Is the completion menu open?
+function M.pumvisible()
+    return tonumber(vim.fn.pumvisible()) ~= 0
+end
+
 return M
