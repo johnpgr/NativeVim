@@ -25,11 +25,11 @@ keymap("<C-u>", "<C-u>zz", "Better scroll up")
 keymap("n", "nzz", "Better jump next", "n")
 keymap("]d", function()
     vim.diagnostic.goto_next()
-    feedkeys("zz")
+    feedkeys "zz"
 end, {desc = "Better jump next diagnostic", remap = true}, "n")
 keymap("[d", function()
     vim.diagnostic.goto_prev()
-    feedkeys("zz")
+    feedkeys "zz"
 end, {desc = "Better jump prev diagnostic", remap = true}, "n")
 keymap("J", ":m '>+1<CR>gv=gv", "Move line down","v")
 keymap("K", ":m '<-2<CR>gv=gv", "Move line up","v")

@@ -52,6 +52,12 @@ local servers = {
         cmd = { "rust-analyzer" },
         root_dir = vim.fs.root(0, {"Cargo.toml"}),
         filetypes = { "rust" }
+    },
+    zls = {
+        name = "zls",
+        cmd = { "zls" },
+        root_dir = vim.fs.root(0,{"build.zig", "build.zig.zon"}),
+        filetypes = {"zig"},
     }
 }
 
@@ -134,3 +140,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 })
 
+vim.api.nvim_create_autocmd("InsertCharPre", {
+    callback = function()
+        if next(vim.lsp.get_clients { bufnr = 0 }) and not pumvisible() then
+            vim.lsp.completion.trigger()
+        end
+    end
+})
