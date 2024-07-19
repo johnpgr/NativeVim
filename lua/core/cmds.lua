@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     pattern = "*",
 })
 
-
+-- TODO have the netrw current file path appended
 local function touch_file()
     if vim.bo.filetype == "netrw" then
         vim.ui.input({ prompt = "Enter file name: " }, function(file_name)
@@ -29,4 +29,10 @@ vim.cmd [[
     autocmd TermOpen * startinsert
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd TermEnter * setlocal signcolumn=no
+]]
+
+vim.cmd [[
+    highlight NormalFloat guibg=#504945
+    highlight FoldColumn guibg=#282828
+    highlight SignColumn guibg=#282828
 ]]
