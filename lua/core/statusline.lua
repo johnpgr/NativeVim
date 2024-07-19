@@ -60,6 +60,9 @@ end
 local function git_branch()
     -- Get current branch withou any plugins
     local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
+    if branch:find("fatal: not a git repository") then
+        return ""
+    end
 
     return branch ~= "" and "-> " .. branch .. "*" or ""
 end
