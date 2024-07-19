@@ -47,7 +47,14 @@ local servers = {
         root_dir = vim.fs.root(0, { "go.work", "go.mod", ".git" }),
         filetypes = { "go", "gomod", "gowork", "gotmpl" },
     },
+    rust_analyzer = {
+        name = "rust-analyzer",
+        cmd = { "rust-analyzer" },
+        root_dir = vim.fs.root(0, {"Cargo.toml"}),
+        filetypes = { "rust" }
+    }
 }
+
 local group = vim.api.nvim_create_augroup("UserLspStart", { clear = true })
 for name, config in pairs(servers) do
     if vim.fn.executable(servers[name].cmd[1]) ~= 0 then
@@ -64,7 +71,7 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspAttach", { clear = false }),
     callback = function(ev)
-        vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, { autotrigger = false })
+        vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, { autotrigger = true })
     -- Use enter to accept completions.
     keymap('<cr>', function()
         return pumvisible() and '<C-y>' or '<cr>'
@@ -126,3 +133,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap('<BS>', '<C-o>s', {}, 's')
     end
 })
+

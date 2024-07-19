@@ -31,8 +31,8 @@ vim.cmd [[
     autocmd TermEnter * setlocal signcolumn=no
 ]]
 
-vim.cmd [[
-    highlight NormalFloat guibg=#504945
-    highlight FoldColumn guibg=#282828
-    highlight SignColumn guibg=#282828
-]]
+-- vim.cmd [[
+--     highlight NormalFloat guibg=#504945
+--     highlight FoldColumn guibg=#282828
+--     highlight SignColumn guibg=#282828
+-- ]]
