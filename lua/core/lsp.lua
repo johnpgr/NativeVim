@@ -140,10 +140,30 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 })
 
+---@type table<number, boolean>
+local ALPHANUMERIC_LOOKUP = {}
+for i = 1, 26 do
+    ALPHANUMERIC_LOOKUP[string.byte("a") + i - 1] = true
+    ALPHANUMERIC_LOOKUP[string.byte("A") + i - 1] = true
+end
+for i = 0, 9 do
+    ALPHANUMERIC_LOOKUP[string.byte("0") + i] = true
+end
+
+---@param char string
+local function is_alphanumeric(char)
+    return ALPHANUMERIC_LOOKUP[string.byte(char)] == true
+end
+
 vim.api.nvim_create_autocmd("InsertCharPre", {
     callback = function()
-        if next(vim.lsp.get_clients { bufnr = 0 }) and not pumvisible() then
-            vim.lsp.completion.trigger()
+        if pumvisible() then
+            return
         end
-    end
+        if is_alphanumeric(vim.v.char) then
+            if next(vim.lsp.get_clients({ bufnr = 0 })) then
+                vim.lsp.completion.trigger()
+            end
+        end
+    end,
 })

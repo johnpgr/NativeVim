@@ -39,20 +39,7 @@ keymap("K", ":m '<-2<CR>gv=gv", "Move line up","v")
 keymap("gd", vim.lsp.buf.definition, "LSP: Goto definition","n")
 keymap("gr", vim.lsp.buf.references, "LSP: Goto definition","n")
 keymap("<leader>lr", vim.lsp.buf.rename, "LSP: Goto definition","n")
-keymap("K", function()
-    local next_diag_pos = vim.diagnostic.get_next_pos()
-    local current_pos = vim.api.nvim_win_get_cursor(0)
-
-    if next_diag_pos then
-        if next_diag_pos[1]+1 == current_pos[1] then
-            vim.diagnostic.open_float()
-            return
-        end
-    end
-
-    vim.lsp.buf.hover()
-end, "LSP: Show hover message", "n")
-keymap("<F1>", function() feedkeys(":SplitrunNew ") end, "Splitrun")
+keymap("K", vim.lsp.buf.hover, "LSP: Show hover message", "n")
 keymap("<leader>tt","<cmd>tabnew<cr><cmd>terminal<cr>", "Open terminal tab")
 keymap("<leader>tn", "<cmd>tabnew<cr>", "Open new tab")
 keymap("<Esc>", "<C-\\><C-n>","Terminal mode easy exit", "t")

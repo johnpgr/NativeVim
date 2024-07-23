@@ -21,42 +21,6 @@ local function lsp_status()
     return "[" .. table.concat(names, ", ") .. "]"
 end
 
-local function current_indentation()
-    local current_indent = vim.bo.expandtab and "spaces" or "tab size"
-
-    local indent_size = -1
-
-    if current_indent == "spaces" then
-        indent_size = vim.bo.shiftwidth
-    else
-        indent_size = vim.bo.tabstop
-    end
-
-    return current_indent .. ": " .. indent_size
-end
-
-local function fileformat()
-    local format = ""
-
-    if vim.bo.fileformat == "unix" then
-        format = "lf"
-    elseif vim.bo.fileformat == "dos" then
-        format = "crlf"
-    else
-        format = "cr"
-    end
-
-    return " " .. format .. " "
-end
-
-local function file_encoding()
-    return vim.bo.fenc ~= "" and " " .. vim.bo.fenc or ""
-end
-
-local function file_type()
-    return vim.bo.filetype ~= "" and " " .. vim.bo.filetype or ""
-end
-
 local function git_branch()
     -- Get current branch withou any plugins
     local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
@@ -64,21 +28,18 @@ local function git_branch()
         return ""
     end
 
-    return branch ~= "" and "-> " .. branch .. "*" or ""
+    return branch ~= "" and "[" .. branch .. "]" or " "
 end
 
 function _G.statusline()
     return table.concat({
-        " %f",
+        "%f %m",
         git_branch(),
         "%h%w%r",
         "%=",
         lsp_status(),
-        file_encoding(),
-        fileformat(),
-        current_indentation(),
-        " %-8(%l,%c%V%)",
-        "%P ",
+        " %-14(%l,%c%V%)",
+        "%P"
     }, " ")
 end
 
