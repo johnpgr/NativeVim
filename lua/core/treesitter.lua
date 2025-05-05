@@ -51,9 +51,3 @@ vim.api.nvim_create_autocmd("FileType", {
 
 Add this code in your config. Reopen the editor, and you are done.
 --]]
-
-vim.api.nvim_create_autocmd("FileType", {
-    callback = function()
-        pcall(vim.treesitter.start)
-    end
-})
